@@ -51,6 +51,9 @@ Ultimo checkpoint antes deste documento:
 - Game Library permite abrir jogo/pasta, remover do catalogo, chamar desinstalador oficial e mover para Lixeira quando a pasta esta dentro de uma GameRoot segura.
 - Instalador testado em pasta temporaria dentro de `%LOCALAPPDATA%\Programs`.
 - Desinstalador testado removendo pasta temporaria e chave HKCU de uninstall.
+- Corrigido dashboard portatil para cada botao abrir seu proprio modulo de forma confiavel.
+- Adicionado launcher `Pulse HUD Pro - Portable.bat` na raiz do pacote.
+- Launcher `.exe` agora explica que o ZIP precisa ser extraido inteiro quando as pastas do app nao sao encontradas.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.

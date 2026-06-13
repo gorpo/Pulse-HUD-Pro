@@ -23,10 +23,11 @@ foreach ($action in @($config.Actions)) {
     $button.Margin = "0,0,8,8"
     $button.Tag = [string]$action.SendKeys
     $button.Add_Click({
+        param($sender, $eventArgs)
         try {
             [void]$shell.AppActivate([string]$config.ObsWindowTitle)
             Start-Sleep -Milliseconds 120
-            $shell.SendKeys([string]$this.Tag)
+            $shell.SendKeys([string]$sender.Tag)
         } catch {}
     })
     $panel.Children.Add($button) | Out-Null

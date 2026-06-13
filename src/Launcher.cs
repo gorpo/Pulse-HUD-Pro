@@ -50,7 +50,13 @@ internal static class Launcher
 
             if (!File.Exists(script))
             {
-                MessageBox.Show("Script nao encontrado:\n" + script, "Pulse HUD Pro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Script nao encontrado:\n" + script + "\n\n" +
+                    "Se voce abriu o EXE direto de dentro do ZIP, extraia a pasta inteira primeiro. " +
+                    "O modo portatil precisa das pastas src, scripts, config, assets e bin juntas.",
+                    "Pulse HUD Pro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return 2;
             }
 

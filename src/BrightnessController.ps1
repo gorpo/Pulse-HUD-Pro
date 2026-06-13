@@ -298,7 +298,10 @@ $presetPanel = New-Object System.Windows.Controls.WrapPanel
 foreach ($preset in @($config.Presets)) {
     $button = New-ProButton "$preset%" 72 34
     $button.Tag = [int]$preset
-    $button.Add_Click({ Set-SelectedBrightness ([int]$this.Tag) })
+    $button.Add_Click({
+        param($sender, $eventArgs)
+        Set-SelectedBrightness ([int]$sender.Tag)
+    })
     $presetPanel.Children.Add($button) | Out-Null
 }
 $rootPanel.Children.Add($presetPanel) | Out-Null

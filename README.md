@@ -12,6 +12,14 @@ O projeto reaproveita a base pronta do Pulse HUD - FPS Overlay e adiciona um pai
 bin\PulseHUDPro.exe
 ```
 
+Modo portatil, sem instalar:
+
+```text
+Pulse HUD Pro - Portable.bat
+```
+
+Importante: extraia o ZIP inteiro antes de abrir. O executavel precisa das pastas `src`, `scripts`, `config`, `assets` e `bin` juntas.
+
 Ou, durante desenvolvimento:
 
 ```text

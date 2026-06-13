@@ -19,6 +19,7 @@ function Start-ProScript {
         return
     }
 
+    Write-ProLog "dashboard" "Opening $RelativePath"
     $args = @("-NoProfile", "-ExecutionPolicy", "Bypass")
     if ($Sta) { $args += "-STA" }
     $args += @("-File", "`"$scriptPath`"")
@@ -38,6 +39,10 @@ function Add-ToolButton {
     $button.Margin = "0,0,10,10"
     $button.Padding = "12,10,12,10"
     $button.HorizontalContentAlignment = "Stretch"
+    $button.Tag = [pscustomobject]@{
+        Script = $Script
+        Sta = [bool]$Sta
+    }
 
     $stack = New-Object System.Windows.Controls.StackPanel
     $titleBlock = New-ProText $Title 14 "SemiBold" $script:PulseHudTheme.Text
@@ -46,7 +51,11 @@ function Add-ToolButton {
     [void]$stack.Children.Add($titleBlock)
     [void]$stack.Children.Add($detailBlock)
     $button.Content = $stack
-    $button.Add_Click({ Start-ProScript $Script -Sta:$Sta })
+    $button.Add_Click({
+        param($sender, $eventArgs)
+        $target = $sender.Tag
+        Start-ProScript $target.Script -Sta:([bool]$target.Sta)
+    })
     [void]$Parent.Children.Add($button)
 }
 

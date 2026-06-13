@@ -35,5 +35,6 @@
 - Adiciona hotkey global para mostrar/ocultar o Game Notes Overlay.
 - Adiciona Game Library com varredura local, catalogo, abertura, remocao segura e desinstalador oficial.
 - Valida fluxo de instalacao e desinstalacao por usuario atual.
+- Corrige cliques do dashboard no modo portatil e adiciona launcher portatil na raiz.
 - Adiciona tema gamer compartilhado e aplica nos modulos Pro.
 - Adiciona Profile Editor com validacao e backup antes de salvar.
