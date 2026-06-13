@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 # Creates a distributable ZIP without requiring GitHub tools.
 $root = Split-Path -Parent $PSScriptRoot
 $releaseDir = Join-Path $root "release"
-$zipPath = Join-Path $releaseDir "Pulse-HUD-FPS-Overlay.zip"
+$zipPath = Join-Path $releaseDir "Pulse-HUD-Pro.zip"
 $tempDir = Join-Path $env:TEMP ("pulse-hud-release-" + [guid]::NewGuid().ToString("N"))
 
 New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null

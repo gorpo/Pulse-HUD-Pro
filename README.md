@@ -68,6 +68,32 @@ bin\PulseHUDConfig.exe
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\tests\SmokeTest.ps1"
 ```
 
+## Instalar e release
+
+Criar atalho na Area de Trabalho:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\CriarAtalhoDesktop.ps1"
+```
+
+Instalar no usuario atual:
+
+```text
+bin\PulseHUDInstall.exe
+```
+
+Gerar ZIP:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\CriarReleaseZip.ps1"
+```
+
+O ZIP sai em:
+
+```text
+release\Pulse-HUD-Pro.zip
+```
+
 ## PresentMon
 
 FPS real continua documentado em [docs/presentmon.md](docs/presentmon.md).

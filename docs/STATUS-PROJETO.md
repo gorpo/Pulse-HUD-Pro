@@ -41,6 +41,7 @@ Ultimo checkpoint antes deste documento:
 - Adicionado Profile Editor em `src\ProfileEditor.ps1`.
 - Profile Editor valida JSON por modulo e cria backup antes de salvar.
 - Tema compartilhado aplicado tambem em Focus, Launcher, Clip Marker, OBS Quick Deck, Thermal Alert e Aim Warmup Timer.
+- Scripts de atalho, instalacao, desinstalacao e release passaram a usar Pulse HUD Pro como produto principal.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.
@@ -92,7 +93,7 @@ config\settings.json
 - Adicionar hotkey global ao Game Notes Overlay para mostrar/ocultar.
 - Criar tema visual gamer mais consistente entre todos os modulos.
 - Criar instalador/atalho especifico para `PulseHUDPro.exe`.
-- Gerar release ZIP novo com o nome Pulse HUD Pro.
+- Validar instalacao completa em uma maquina limpa ou pasta temporaria.
 
 ## Planejamento recomendado
 

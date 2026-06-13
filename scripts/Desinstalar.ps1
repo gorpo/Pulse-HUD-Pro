@@ -11,8 +11,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$appName = "Pulse HUD - FPS Overlay"
-$appId = "PulseHUD-FPSOverlay"
+$appName = "Pulse HUD Pro"
+$appId = "PulseHUDPro"
 
 function Get-FullPath {
     param([string]$Path)
@@ -69,6 +69,8 @@ Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
 # Remove Startup, Desktop and Start Menu shortcuts created by the installer.
 Remove-ShortcutIfExists (Join-Path ([Environment]::GetFolderPath("Desktop")) "$appName.lnk")
 Remove-ShortcutIfExists (Join-Path ([Environment]::GetFolderPath("Startup")) "$appName.lnk")
+Remove-ShortcutIfExists (Join-Path ([Environment]::GetFolderPath("Desktop")) "Pulse HUD - FPS Overlay.lnk")
+Remove-ShortcutIfExists (Join-Path ([Environment]::GetFolderPath("Startup")) "Pulse HUD - FPS Overlay.lnk")
 
 $startMenuDir = Join-Path ([Environment]::GetFolderPath("Programs")) $appName
 if (Test-Path -LiteralPath $startMenuDir) {
@@ -79,6 +81,11 @@ if (Test-Path -LiteralPath $startMenuDir) {
 $uninstallKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\$appId"
 if (Test-Path -LiteralPath $uninstallKey) {
     Remove-Item -LiteralPath $uninstallKey -Recurse -Force
+}
+
+$oldUninstallKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\PulseHUD-FPSOverlay"
+if (Test-Path -LiteralPath $oldUninstallKey) {
+    Remove-Item -LiteralPath $oldUninstallKey -Recurse -Force
 }
 
 # Deleting the folder that contains the running uninstaller is safer when done

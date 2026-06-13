@@ -1,6 +1,6 @@
 param(
     # Per-user install location. HKCU uninstall entries do not need admin rights.
-    [string]$InstallDir = (Join-Path $env:LOCALAPPDATA "Programs\Pulse HUD - FPS Overlay"),
+    [string]$InstallDir = (Join-Path $env:LOCALAPPDATA "Programs\Pulse HUD Pro"),
 
     # Useful for scripted installs where desktop shortcuts are not wanted.
     [switch]$NoDesktopShortcut
@@ -11,10 +11,10 @@ $ErrorActionPreference = "Stop"
 # The installer is intentionally simple: copy the project, create shortcuts, and
 # register a standard Windows uninstall entry for the current user.
 $sourceRoot = Split-Path -Parent $PSScriptRoot
-$appName = "Pulse HUD - FPS Overlay"
+$appName = "Pulse HUD Pro"
 $publisher = "gorpo"
 $version = "0.2.0"
-$appId = "PulseHUD-FPSOverlay"
+$appId = "PulseHUDPro"
 
 function Get-FullPath {
     param([string]$Path)
@@ -59,12 +59,14 @@ $iconPath = Join-Path $installRoot "assets\logo.ico"
 $sourceCompiler = Join-Path $sourceRoot "scripts\CompilarExecutaveis.ps1"
 
 # Make sure the final executables exist before copying/installing.
-if (-not (Test-Path -LiteralPath (Join-Path $sourceRoot "bin\PulseHUD.exe"))) {
+if (-not (Test-Path -LiteralPath (Join-Path $sourceRoot "bin\PulseHUDPro.exe"))) {
     & $sourceCompiler | Out-Host
 }
 
-$runExe = Join-Path $installRoot "bin\PulseHUD.exe"
+$runExe = Join-Path $installRoot "bin\PulseHUDPro.exe"
+$hudExe = Join-Path $installRoot "bin\PulseHUD.exe"
 $configExe = Join-Path $installRoot "bin\PulseHUDConfig.exe"
+$profileExe = Join-Path $installRoot "src\ProfileEditor.ps1"
 $uninstallExe = Join-Path $installRoot "bin\PulseHUDUninstall.exe"
 
 Write-Host "Instalando $appName em: $installRoot"
@@ -92,7 +94,6 @@ if (-not (Test-Path -LiteralPath $iconPath)) {
     $iconPath = "$env:SystemRoot\System32\perfmon.exe,0"
 }
 
-# Desktop shortcut launches the hidden VBS so no PowerShell window appears.
 if (-not $NoDesktopShortcut) {
     $desktopShortcut = Join-Path ([Environment]::GetFolderPath("Desktop")) "$appName.lnk"
 New-Shortcut `
@@ -101,7 +102,7 @@ New-Shortcut `
         -Arguments "" `
         -WorkingDirectory $installRoot `
         -IconLocation $iconPath `
-        -Description "Inicia o $appName"
+        -Description "Abre o dashboard all-in-one do $appName"
 }
 
 # Start Menu entries make the app easy to open, configure and uninstall.
@@ -114,15 +115,31 @@ New-Shortcut `
     -Arguments "" `
     -WorkingDirectory $installRoot `
     -IconLocation $iconPath `
-    -Description "Inicia o $appName"
+    -Description "Abre o dashboard all-in-one do $appName"
 
 New-Shortcut `
-    -Path (Join-Path $startMenuDir "Configurar $appName.lnk") `
+    -Path (Join-Path $startMenuDir "Pulse HUD Overlay.lnk") `
+    -TargetPath $hudExe `
+    -Arguments "" `
+    -WorkingDirectory $installRoot `
+    -IconLocation $iconPath `
+    -Description "Inicia somente o overlay classico"
+
+New-Shortcut `
+    -Path (Join-Path $startMenuDir "Configurar HUD.lnk") `
     -TargetPath $configExe `
     -Arguments "" `
     -WorkingDirectory $installRoot `
     -IconLocation $iconPath `
-    -Description "Abre as configuracoes do $appName"
+    -Description "Abre as configuracoes visuais do HUD"
+
+New-Shortcut `
+    -Path (Join-Path $startMenuDir "Profile Editor.lnk") `
+    -TargetPath "powershell.exe" `
+    -Arguments "-NoProfile -ExecutionPolicy Bypass -STA -File `"$profileExe`"" `
+    -WorkingDirectory $installRoot `
+    -IconLocation $iconPath `
+    -Description "Edita perfis e modulos do Pulse HUD Pro"
 
 New-Shortcut `
     -Path (Join-Path $startMenuDir "Desinstalar $appName.lnk") `
