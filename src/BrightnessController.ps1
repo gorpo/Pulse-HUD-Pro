@@ -54,6 +54,16 @@ public static class PulseBrightnessNative {
     [DllImport("dxva2.dll", SetLastError = true)]
     private static extern bool SetVCPFeature(IntPtr handle, byte code, uint value);
 
+    public const int GWL_EXSTYLE = -20;
+    public const int WS_EX_TRANSPARENT = 0x00000020;
+    public const int WS_EX_TOOLWINDOW = 0x00000080;
+
+    [DllImport("user32.dll")]
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
     private static List<PHYSICAL_MONITOR> monitors = new List<PHYSICAL_MONITOR>();
 
     public static PulseBrightnessDisplay[] GetDisplays() {
@@ -106,6 +116,11 @@ public static class PulseBrightnessNative {
         DestroyPhysicalMonitors((uint)arr.Length, arr);
         monitors.Clear();
     }
+
+    public static void MakeClickThrough(IntPtr hwnd) {
+        int style = GetWindowLong(hwnd, GWL_EXSTYLE);
+        SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
+    }
 }
 "@
 
@@ -113,6 +128,9 @@ $config = (Get-ProProfiles).BrightnessController
 $script:Displays = @()
 $script:WmiDisplays = @()
 $script:SuppressSlider = $false
+$script:DimmerWindows = @()
+
+Add-Type -AssemblyName System.Windows.Forms
 
 function Get-WmiBrightnessDisplays {
     $items = @()
@@ -193,6 +211,48 @@ function Set-SelectedBrightness {
     Refresh-Displays
 }
 
+function Hide-SoftwareDimmer {
+    foreach ($dimmer in @($script:DimmerWindows)) {
+        try { $dimmer.Close() } catch {}
+    }
+    $script:DimmerWindows = @()
+    if ($dimmerStatus) { $dimmerStatus.Text = "Dimmer universal: desligado" }
+}
+
+function Show-SoftwareDimmer {
+    param([int]$Percent)
+
+    Hide-SoftwareDimmer
+    $pct = [Math]::Max(0, [Math]::Min(75, $Percent))
+    if ($pct -le 0) { return }
+
+    foreach ($screen in [System.Windows.Forms.Screen]::AllScreens) {
+        $dimmer = New-Object System.Windows.Window
+        $dimmer.Title = "Pulse HUD Pro Dimmer"
+        $dimmer.WindowStyle = "None"
+        $dimmer.ResizeMode = "NoResize"
+        $dimmer.AllowsTransparency = $true
+        $dimmer.Background = [System.Windows.Media.Brushes]::Black
+        $dimmer.Opacity = $pct / 100
+        $dimmer.Topmost = $true
+        $dimmer.ShowInTaskbar = $false
+        $dimmer.ShowActivated = $false
+        $dimmer.Focusable = $false
+        $dimmer.Left = $screen.Bounds.Left
+        $dimmer.Top = $screen.Bounds.Top
+        $dimmer.Width = $screen.Bounds.Width
+        $dimmer.Height = $screen.Bounds.Height
+        $dimmer.Add_SourceInitialized({
+            $helper = New-Object System.Windows.Interop.WindowInteropHelper($this)
+            [PulseBrightnessNative]::MakeClickThrough($helper.Handle)
+        })
+        $dimmer.Show()
+        $script:DimmerWindows += $dimmer
+    }
+
+    $dimmerStatus.Text = "Dimmer universal: $pct% em $($script:DimmerWindows.Count) tela(s)"
+}
+
 function Update-Selection {
     $display = Get-SelectedDisplay
     if ($null -eq $display) {
@@ -207,7 +267,7 @@ function Update-Selection {
 }
 
 $window = New-Object System.Windows.Window
-Set-ProWindowStyle $window "Pulse HUD Pro - Brightness Control" 540 430
+Set-ProWindowStyle $window "Pulse HUD Pro - Brightness Control" 540 560
 
 $rootPanel = New-Object System.Windows.Controls.StackPanel
 $rootPanel.Margin = "18"
@@ -252,6 +312,32 @@ $actions.Children.Add($apply) | Out-Null
 $actions.Children.Add($refresh) | Out-Null
 $rootPanel.Children.Add($actions) | Out-Null
 
+$dimmerPanel = New-Object System.Windows.Controls.StackPanel
+$dimmerPanel.Margin = "0,8,0,0"
+$dimmerTitle = New-ProText "Dimmer universal" 14 "Bold" $script:PulseHudTheme.Accent2
+$dimmerInfo = New-ProText "Fallback visual para qualquer monitor. Ele escurece a tela por overlay e nao muda a luz de fundo real." 11 "Normal" $script:PulseHudTheme.Muted
+$dimmerInfo.Margin = "0,2,0,8"
+$dimmerSlider = New-Object System.Windows.Controls.Slider
+$dimmerSlider.Minimum = 0
+$dimmerSlider.Maximum = 75
+$dimmerSlider.Value = [double]$config.SoftwareDimmerOpacity
+$dimmerSlider.TickFrequency = 5
+$dimmerSlider.Margin = "0,0,0,8"
+$dimmerButtons = New-Object System.Windows.Controls.WrapPanel
+$dimmerApply = New-ProButton "Ativar dimmer" 124 34 "Primary"
+$dimmerOff = New-ProButton "Desligar" 96 34
+$dimmerStatus = New-ProText "Dimmer universal: desligado" 12 "Normal" $script:PulseHudTheme.Muted
+$dimmerApply.Add_Click({ Show-SoftwareDimmer ([int]$dimmerSlider.Value) })
+$dimmerOff.Add_Click({ $dimmerSlider.Value = 0; Hide-SoftwareDimmer })
+$dimmerButtons.Children.Add($dimmerApply) | Out-Null
+$dimmerButtons.Children.Add($dimmerOff) | Out-Null
+$dimmerPanel.Children.Add($dimmerTitle) | Out-Null
+$dimmerPanel.Children.Add($dimmerInfo) | Out-Null
+$dimmerPanel.Children.Add($dimmerSlider) | Out-Null
+$dimmerPanel.Children.Add($dimmerButtons) | Out-Null
+$dimmerPanel.Children.Add($dimmerStatus) | Out-Null
+$rootPanel.Children.Add((New-ProPanel $dimmerPanel "12" "0,8,0,12")) | Out-Null
+
 $status = New-Object System.Windows.Controls.TextBlock
 $status.FontFamily = "Segoe UI"
 $status.FontSize = 12
@@ -269,5 +355,8 @@ $slider.Add_ValueChanged({
 
 $window.Content = $rootPanel
 $window.Add_Loaded({ Refresh-Displays })
-$window.Add_Closed({ [PulseBrightnessNative]::DestroyAll() })
+$window.Add_Closed({
+    Hide-SoftwareDimmer
+    [PulseBrightnessNative]::DestroyAll()
+})
 [void]$window.ShowDialog()

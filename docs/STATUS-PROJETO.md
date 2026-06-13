@@ -36,6 +36,7 @@ Ultimo checkpoint antes deste documento:
 - Adicionado Game Notes Overlay em `src\GameNotesOverlay.ps1`.
 - Adicionado Brightness Control em `src\BrightnessController.ps1`.
 - Brightness Control tenta DDC/CI para monitores externos e WMI para telas internas.
+- Brightness Control agora tem dimmer visual universal por overlay para funcionar em qualquer monitor.
 - Adicionado tema gamer compartilhado em `src\PulseHudProCommon.ps1`.
 - Dashboard, Brightness Control, Ping HUD e Game Notes Overlay passaram a usar o tema compartilhado.
 - Adicionado Profile Editor em `src\ProfileEditor.ps1`.
@@ -80,6 +81,7 @@ config\settings.json
 
 - Testar Brightness Control em monitor externo real com DDC/CI ligado no menu do monitor.
 - Testar Brightness Control em notebook/tela interna via WMI.
+- Testar o dimmer universal em setups com multiplos monitores.
 - Melhorar feedback quando um monitor nao aceita controle de brilho.
 - Testar Game Focus Mode com jogos reais e confirmar restauracao do plano de energia.
 - Adicionar opcao de pausar processos em vez de apenas fechar processos.

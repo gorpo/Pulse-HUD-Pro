@@ -99,6 +99,7 @@
   },
   "BrightnessController": {
     "DefaultStep": 10,
+    "SoftwareDimmerOpacity": 0,
     "Presets": [
       25,
       50,

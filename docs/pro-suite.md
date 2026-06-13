@@ -10,7 +10,7 @@ Pulse HUD Pro junta o overlay ja pronto com modulos gamer leves:
 - OBS Quick Deck: botoes que enviam hotkeys para o OBS.
 - Thermal Alert: alerta uso alto e temperatura ACPI quando disponivel.
 - Game Notes Overlay: notas por jogo em janela sempre no topo.
-- Brightness Control: controla brilho por DDC/CI em monitores externos e WMI em telas internas.
+- Brightness Control: controla brilho por DDC/CI/WMI e oferece dimmer visual universal por overlay.
 - Profile Editor: edita cada modulo de `config/profiles.json` com validacao e backup.
 
 Tudo e configurado em `config/profiles.json`.

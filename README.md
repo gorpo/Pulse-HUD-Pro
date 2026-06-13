@@ -29,7 +29,7 @@ scripts\IniciarPulseHudProDebug.bat
 - OBS Quick Deck: botoes que enviam hotkeys para o OBS.
 - Thermal Alert: alerta uso alto e temperatura ACPI quando o Windows disponibiliza sensor.
 - Game Notes Overlay: notas por jogo em overlay discreto.
-- Brightness Control: controle de brilho por DDC/CI em monitores externos e WMI em telas internas.
+- Brightness Control: controle de brilho por DDC/CI/WMI e dimmer visual universal por overlay.
 - Profile Editor: editor validado para `config\profiles.json`, com backup antes de salvar.
 
 ## Configuracao
@@ -104,7 +104,8 @@ FPS real continua documentado em [docs/presentmon.md](docs/presentmon.md).
 - Windows PowerShell 5.1.
 - Para GPU/alertas: contadores `GPU Engine` disponiveis no Windows.
 - Para FPS real: PresentMon ou outro processo escrevendo FPS em arquivo.
-- Para brilho em monitor externo: DDC/CI ativado no menu do monitor, quando suportado.
+- Para brilho real em monitor externo: DDC/CI ativado no menu do monitor, quando suportado.
+- Para qualquer monitor: use o dimmer universal do Brightness Control.
 
 ## Licenca
 
