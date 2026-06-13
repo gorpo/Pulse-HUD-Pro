@@ -47,31 +47,29 @@ function Add-Marker {
 }
 
 $window = New-Object System.Windows.Window
-$window.Title = "Clip Marker"
-$window.Width = 420
-$window.Height = 220
-$window.WindowStartupLocation = "CenterScreen"
-$window.Topmost = $true
+Set-ProWindowStyle $window "Clip Marker" 460 250 -Topmost
 $panel = New-Object System.Windows.Controls.StackPanel
 $panel.Margin = "14"
-$info = New-Object System.Windows.Controls.TextBlock
-$info.Text = "Hotkey global: $($config.Hotkey)`nSaida: $out"
-$info.TextWrapping = "Wrap"
+$title = New-ProText "CLIP MARKER" 16 "Bold" $script:PulseHudTheme.Accent
+$title.Margin = "0,0,0,10"
+$info = New-ProText "Hotkey global: $($config.Hotkey)`nSaida: $out" 12 "Normal" $script:PulseHudTheme.Muted
 $note = New-Object System.Windows.Controls.TextBox
 $note.Margin = "0,12,0,8"
 $note.Height = 28
 $note.Text = ""
-$button = New-Object System.Windows.Controls.Button
-$button.Content = "Marcar agora"
-$button.Height = 34
-$script:last = New-Object System.Windows.Controls.TextBlock
+$note.Background = $script:PulseHudTheme.PanelAlt
+$note.Foreground = $script:PulseHudTheme.Text
+$note.BorderBrush = $script:PulseHudTheme.Accent
+$button = New-ProButton "Marcar agora" 130 34 "Primary"
+$script:last = New-ProText "" 12 "Normal" $script:PulseHudTheme.Success
 $script:last.Margin = "0,10,0,0"
 $button.Add_Click({ Add-Marker $note.Text })
+$panel.Children.Add($title) | Out-Null
 $panel.Children.Add($info) | Out-Null
 $panel.Children.Add($note) | Out-Null
 $panel.Children.Add($button) | Out-Null
 $panel.Children.Add($script:last) | Out-Null
-$window.Content = $panel
+$window.Content = New-ProPanel $panel "14" "0"
 
 $hotkeyId = 9101
 $window.Add_SourceInitialized({

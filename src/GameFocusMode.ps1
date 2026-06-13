@@ -32,21 +32,16 @@ function Invoke-FocusExit {
 }
 
 $window = New-Object System.Windows.Window
-$window.Title = "Game Focus Mode"
-$window.Width = 460
-$window.Height = 260
-$window.WindowStartupLocation = "CenterScreen"
-$window.Background = "#0B1016"
+Set-ProWindowStyle $window "Game Focus Mode" 500 300
 
 $panel = New-Object System.Windows.Controls.StackPanel
 $panel.Margin = "16"
-$text = New-Object System.Windows.Controls.TextBlock
-$text.FontFamily = "Segoe UI"
-$text.FontSize = 14
-$text.Foreground = "#E8EEF6"
-$text.TextWrapping = "Wrap"
+$title = New-ProText "GAME FOCUS MODE" 16 "Bold" $script:PulseHudTheme.Accent
+$title.Margin = "0,0,0,10"
+$text = New-ProText "" 14 "Normal" $script:PulseHudTheme.Text
+$panel.Children.Add($title) | Out-Null
 $panel.Children.Add($text) | Out-Null
-$window.Content = $panel
+$window.Content = New-ProPanel $panel "14" "0"
 
 $timer = New-Object System.Windows.Threading.DispatcherTimer
 $timer.Interval = [TimeSpan]::FromSeconds([Math]::Max(2, [int]$focus.PollSeconds))
@@ -70,7 +65,7 @@ $timer.Add_Tick({
 
     $status = if ($null -ne $script:activeProfile) { "ATIVO: $($script:activeProfile.Name)" } else { "Aguardando jogos configurados..." }
     $names = @($focus.Profiles | ForEach-Object { "$($_.Name) ($($_.ProcessName).exe)" }) -join "`n"
-    $text.Text = "$status`n`nPerfis:`n$names`n`nEdite config\profiles.json para trocar jogos, apps e processos."
+    $text.Text = "$status`n`nPerfis:`n$names`n`nUse Profile Editor para trocar jogos, apps e processos."
 })
 $timer.Start()
 $window.Add_Closed({ if ($null -ne $script:activeProfile) { Invoke-FocusExit $script:activeProfile } })

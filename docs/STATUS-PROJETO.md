@@ -40,6 +40,7 @@ Ultimo checkpoint antes deste documento:
 - Dashboard, Brightness Control, Ping HUD e Game Notes Overlay passaram a usar o tema compartilhado.
 - Adicionado Profile Editor em `src\ProfileEditor.ps1`.
 - Profile Editor valida JSON por modulo e cria backup antes de salvar.
+- Tema compartilhado aplicado tambem em Focus, Launcher, Clip Marker, OBS Quick Deck, Thermal Alert e Aim Warmup Timer.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.
@@ -96,8 +97,8 @@ config\settings.json
 ## Planejamento recomendado
 
 1. Fechar base visual gamer:
-   - Aplicar o tema compartilhado tambem em Focus, Launcher, Clip Marker, OBS, Thermal e Aim Timer.
    - Adicionar icones/indicadores visuais por modulo.
+   - Refinar espacamento e tamanhos depois de teste visual manual.
 
 2. Evoluir editor de configuracao:
    - Transformar o editor JSON por modulo em formularios especificos para cada ferramenta.

@@ -11,26 +11,20 @@ $remaining = [int]$blocks[0].Seconds
 $running = $false
 
 $window = New-Object System.Windows.Window
-$window.Title = "Aim Warmup Timer"
-$window.Width = 360
-$window.Height = 240
-$window.WindowStartupLocation = "CenterScreen"
+Set-ProWindowStyle $window "Aim Warmup Timer" 380 260
 $panel = New-Object System.Windows.Controls.StackPanel
 $panel.Margin = "18"
-$name = New-Object System.Windows.Controls.TextBlock
-$name.FontSize = 24
-$name.FontWeight = "Bold"
-$time = New-Object System.Windows.Controls.TextBlock
-$time.FontSize = 42
-$time.FontFamily = "Consolas"
-$button = New-Object System.Windows.Controls.Button
-$button.Content = "Iniciar/Pausar"
-$button.Height = 34
+$title = New-ProText "AIM WARMUP" 16 "Bold" $script:PulseHudTheme.Accent
+$title.Margin = "0,0,0,10"
+$name = New-ProText "" 24 "Bold" $script:PulseHudTheme.Text
+$time = New-ProText "" 42 "Bold" $script:PulseHudTheme.Accent -Mono
+$button = New-ProButton "Iniciar/Pausar" 130 34 "Primary"
 $button.Add_Click({ $script:running = -not $script:running })
+$panel.Children.Add($title) | Out-Null
 $panel.Children.Add($name) | Out-Null
 $panel.Children.Add($time) | Out-Null
 $panel.Children.Add($button) | Out-Null
-$window.Content = $panel
+$window.Content = New-ProPanel $panel "14" "0"
 
 function Update-View {
     $name.Text = $blocks[$script:index].Name

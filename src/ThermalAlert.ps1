@@ -28,16 +28,15 @@ function Get-ThermalZoneC {
 }
 
 $window = New-Object System.Windows.Window
-$window.Title = "Thermal Alert"
-$window.Width = 420
-$window.Height = 240
-$window.WindowStartupLocation = "CenterScreen"
-$text = New-Object System.Windows.Controls.TextBlock
-$text.Margin = "14"
-$text.FontFamily = "Consolas"
-$text.FontSize = 13
-$text.TextWrapping = "Wrap"
-$window.Content = $text
+Set-ProWindowStyle $window "Thermal Alert" 450 260
+$panel = New-Object System.Windows.Controls.StackPanel
+$panel.Margin = "14"
+$title = New-ProText "THERMAL ALERT" 16 "Bold" $script:PulseHudTheme.Accent
+$title.Margin = "0,0,0,10"
+$text = New-ProText "" 13 "Normal" $script:PulseHudTheme.Text -Mono
+$panel.Children.Add($title) | Out-Null
+$panel.Children.Add($text) | Out-Null
+$window.Content = New-ProPanel $panel "14" "0"
 
 $timer = New-Object System.Windows.Threading.DispatcherTimer
 $timer.Interval = [TimeSpan]::FromSeconds([Math]::Max(1, [int]$config.IntervalSeconds))
@@ -56,6 +55,7 @@ $timer.Add_Tick({
         Write-ProLog "thermal" "CPU=$cpuPct GPU=$gpuPct TEMP=$temp"
     }
     $tempText = if ($temp) { "{0:N1} C" -f $temp } else { "sensor indisponivel" }
+    $text.Foreground = if ($alert) { $script:PulseHudTheme.Danger } else { $script:PulseHudTheme.Text }
     $text.Text = "CPU {0:N0}% / limite {1}%`nGPU {2:N0}% / limite {3}%`nTemp ACPI: {4}`n{5}" -f $cpuPct, $config.CpuPercent, $gpuPct, $config.GpuPercent, $tempText, $alert
 })
 $timer.Start()

@@ -9,19 +9,17 @@ $config = (Get-ProProfiles).ObsQuickDeck
 $shell = New-Object -ComObject WScript.Shell
 
 $window = New-Object System.Windows.Window
-$window.Title = "OBS Quick Deck"
-$window.Width = 320
-$window.Height = 260
-$window.Topmost = $true
-$window.WindowStartupLocation = "CenterScreen"
+Set-ProWindowStyle $window "OBS Quick Deck" 350 300 -Topmost
+$rootPanel = New-Object System.Windows.Controls.StackPanel
+$rootPanel.Margin = "14"
+$title = New-ProText "OBS QUICK DECK" 16 "Bold" $script:PulseHudTheme.Accent
+$title.Margin = "0,0,0,10"
 $panel = New-Object System.Windows.Controls.WrapPanel
-$panel.Margin = "12"
+$rootPanel.Children.Add($title) | Out-Null
+$rootPanel.Children.Add($panel) | Out-Null
 
 foreach ($action in @($config.Actions)) {
-    $button = New-Object System.Windows.Controls.Button
-    $button.Content = $action.Name
-    $button.Width = 136
-    $button.Height = 48
+    $button = New-ProButton $action.Name 142 48
     $button.Margin = "0,0,8,8"
     $button.Tag = [string]$action.SendKeys
     $button.Add_Click({
@@ -34,5 +32,5 @@ foreach ($action in @($config.Actions)) {
     $panel.Children.Add($button) | Out-Null
 }
 
-$window.Content = $panel
+$window.Content = New-ProPanel $rootPanel "14" "0"
 [void]$window.ShowDialog()
