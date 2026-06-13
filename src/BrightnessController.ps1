@@ -207,36 +207,23 @@ function Update-Selection {
 }
 
 $window = New-Object System.Windows.Window
-$window.Title = "Pulse HUD Pro - Brightness Control"
-$window.Width = 520
-$window.Height = 410
-$window.WindowStartupLocation = "CenterScreen"
-$window.Background = "#070B10"
+Set-ProWindowStyle $window "Pulse HUD Pro - Brightness Control" 540 430
 
 $rootPanel = New-Object System.Windows.Controls.StackPanel
 $rootPanel.Margin = "18"
 
-$title = New-Object System.Windows.Controls.TextBlock
-$title.Text = "Brightness Control"
-$title.FontFamily = "Segoe UI"
-$title.FontSize = 26
-$title.FontWeight = "Bold"
-$title.Foreground = "#F8FAFC"
+$title = New-ProText "Brightness Control" 26 "Bold" $script:PulseHudTheme.Text
 $rootPanel.Children.Add($title) | Out-Null
 
-$subtitle = New-Object System.Windows.Controls.TextBlock
-$subtitle.Text = "DDC/CI + WMI, com presets rapidos para setup gamer."
-$subtitle.FontFamily = "Segoe UI"
-$subtitle.FontSize = 12
-$subtitle.Foreground = "#67E8F9"
+$subtitle = New-ProText "DDC/CI + WMI, com presets rapidos para setup gamer." 12 "Normal" $script:PulseHudTheme.Accent
 $subtitle.Margin = "0,0,0,14"
 $rootPanel.Children.Add($subtitle) | Out-Null
 
 $list = New-Object System.Windows.Controls.ListBox
 $list.Height = 96
-$list.Background = "#111827"
-$list.Foreground = "#E5E7EB"
-$list.BorderBrush = "#0EA5E9"
+$list.Background = $script:PulseHudTheme.PanelAlt
+$list.Foreground = $script:PulseHudTheme.Text
+$list.BorderBrush = $script:PulseHudTheme.Accent
 $rootPanel.Children.Add($list) | Out-Null
 
 $slider = New-Object System.Windows.Controls.Slider
@@ -249,13 +236,7 @@ $rootPanel.Children.Add($slider) | Out-Null
 
 $presetPanel = New-Object System.Windows.Controls.WrapPanel
 foreach ($preset in @($config.Presets)) {
-    $button = New-Object System.Windows.Controls.Button
-    $button.Content = "$preset%"
-    $button.Width = 72
-    $button.Height = 34
-    $button.Margin = "0,0,8,8"
-    $button.Background = "#172554"
-    $button.Foreground = "#E0F2FE"
+    $button = New-ProButton "$preset%" 72 34
     $button.Tag = [int]$preset
     $button.Add_Click({ Set-SelectedBrightness ([int]$this.Tag) })
     $presetPanel.Children.Add($button) | Out-Null
@@ -263,19 +244,9 @@ foreach ($preset in @($config.Presets)) {
 $rootPanel.Children.Add($presetPanel) | Out-Null
 
 $actions = New-Object System.Windows.Controls.WrapPanel
-$apply = New-Object System.Windows.Controls.Button
-$apply.Content = "Aplicar"
-$apply.Width = 96
-$apply.Height = 34
-$apply.Margin = "0,0,8,8"
-$apply.Background = "#0891B2"
-$apply.Foreground = "#FFFFFF"
+$apply = New-ProButton "Aplicar" 96 34 "Primary"
 $apply.Add_Click({ Set-SelectedBrightness ([int]$slider.Value) })
-$refresh = New-Object System.Windows.Controls.Button
-$refresh.Content = "Atualizar"
-$refresh.Width = 96
-$refresh.Height = 34
-$refresh.Margin = "0,0,8,8"
+$refresh = New-ProButton "Atualizar" 96 34
 $refresh.Add_Click({ Refresh-Displays })
 $actions.Children.Add($apply) | Out-Null
 $actions.Children.Add($refresh) | Out-Null
@@ -284,7 +255,7 @@ $rootPanel.Children.Add($actions) | Out-Null
 $status = New-Object System.Windows.Controls.TextBlock
 $status.FontFamily = "Segoe UI"
 $status.FontSize = 12
-$status.Foreground = "#CBD5E1"
+$status.Foreground = $script:PulseHudTheme.Muted
 $status.TextWrapping = "Wrap"
 $status.Margin = "0,8,0,0"
 $rootPanel.Children.Add($status) | Out-Null

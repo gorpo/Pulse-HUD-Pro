@@ -5,6 +5,7 @@ $root = Split-Path -Parent $PSScriptRoot
 Add-Type -AssemblyName PresentationCore
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName WindowsBase
+. "$PSScriptRoot\PulseHudProCommon.ps1"
 
 function Start-ProScript {
     param(
@@ -24,19 +25,6 @@ function Start-ProScript {
     Start-Process powershell.exe -ArgumentList $args -WorkingDirectory $root
 }
 
-function New-Text {
-    param([string]$Text, [double]$Size, [string]$Weight = "Normal", [string]$Color = "#E8EEF6")
-
-    $block = New-Object System.Windows.Controls.TextBlock
-    $block.Text = $Text
-    $block.FontFamily = "Segoe UI"
-    $block.FontSize = $Size
-    $block.FontWeight = $Weight
-    $block.Foreground = $Color
-    $block.TextWrapping = "Wrap"
-    return $block
-}
-
 function Add-ToolButton {
     param(
         [System.Windows.Controls.Panel]$Parent,
@@ -46,18 +34,14 @@ function Add-ToolButton {
         [switch]$Sta
     )
 
-    $button = New-Object System.Windows.Controls.Button
+    $button = New-ProButton "" 218 86
     $button.Margin = "0,0,10,10"
-    $button.Padding = "12"
-    $button.MinHeight = 74
-    $button.Background = "#17202A"
-    $button.Foreground = "#E8EEF6"
-    $button.BorderBrush = "#334155"
+    $button.Padding = "12,10,12,10"
     $button.HorizontalContentAlignment = "Stretch"
 
     $stack = New-Object System.Windows.Controls.StackPanel
-    $titleBlock = New-Text $Title 14 "SemiBold" "#FFFFFF"
-    $detailBlock = New-Text $Detail 11 "Normal" "#AAB6C6"
+    $titleBlock = New-ProText $Title 14 "SemiBold" $script:PulseHudTheme.Text
+    $detailBlock = New-ProText $Detail 11 "Normal" $script:PulseHudTheme.Muted
     $detailBlock.Margin = "0,4,0,0"
     [void]$stack.Children.Add($titleBlock)
     [void]$stack.Children.Add($detailBlock)
@@ -67,13 +51,7 @@ function Add-ToolButton {
 }
 
 $window = New-Object System.Windows.Window
-$window.Title = "Pulse HUD Pro"
-$window.Width = 760
-$window.Height = 620
-$window.MinWidth = 620
-$window.MinHeight = 500
-$window.WindowStartupLocation = "CenterScreen"
-$window.Background = "#0B1016"
+Set-ProWindowStyle $window "Pulse HUD Pro" 820 660
 
 $scroll = New-Object System.Windows.Controls.ScrollViewer
 $scroll.VerticalScrollBarVisibility = "Auto"
@@ -81,11 +59,29 @@ $rootPanel = New-Object System.Windows.Controls.StackPanel
 $rootPanel.Margin = "18"
 $scroll.Content = $rootPanel
 
-$title = New-Text "Pulse HUD Pro" 28 "Bold" "#FFFFFF"
-$subtitle = New-Text "Suite leve para HUD, foco, rede, clips, OBS, notas e aquecimento." 13 "Normal" "#AAB6C6"
+$title = New-ProText "Pulse HUD Pro" 30 "Bold" $script:PulseHudTheme.Text
+$subtitle = New-ProText "Suite gamer leve para HUD, foco, rede, clips, OBS, notas, brilho e aquecimento." 13 "Normal" $script:PulseHudTheme.Muted
 $subtitle.Margin = "0,2,0,18"
 [void]$rootPanel.Children.Add($title)
 [void]$rootPanel.Children.Add($subtitle)
+
+$statusGrid = New-Object System.Windows.Controls.Grid
+$statusGrid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{ Width = "*" }))
+$statusGrid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{ Width = "*" }))
+$statusGrid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{ Width = "*" }))
+foreach ($item in @(
+    @("HUD", "Metricas em tempo real", $script:PulseHudTheme.Accent),
+    @("FOCUS", "Perfis por jogo", $script:PulseHudTheme.Accent2),
+    @("TOOLS", "Rede, brilho, clips e OBS", $script:PulseHudTheme.Success)
+)) {
+    $stack = New-Object System.Windows.Controls.StackPanel
+    [void]$stack.Children.Add((New-ProText $item[0] 12 "Bold" $item[2]))
+    [void]$stack.Children.Add((New-ProText $item[1] 12 "Normal" $script:PulseHudTheme.Muted))
+    $panel = New-ProPanel $stack "10" "0,0,10,14"
+    [System.Windows.Controls.Grid]::SetColumn($panel, [array]::IndexOf(@("HUD", "FOCUS", "TOOLS"), $item[0]))
+    [void]$statusGrid.Children.Add($panel)
+}
+[void]$rootPanel.Children.Add($statusGrid)
 
 $quickRow = New-Object System.Windows.Controls.WrapPanel
 [void]$rootPanel.Children.Add($quickRow)
@@ -102,10 +98,7 @@ Add-ToolButton $quickRow "Thermal Alert" "Alertas de uso alto e temperatura quan
 Add-ToolButton $quickRow "Game Notes Overlay" "Notas por jogo em overlay discreto." "src\GameNotesOverlay.ps1" -Sta
 Add-ToolButton $quickRow "Brightness Control" "Controle gamer de brilho por DDC/CI e WMI." "src\BrightnessController.ps1" -Sta
 
-$configButton = New-Object System.Windows.Controls.Button
-$configButton.Content = "Abrir config\\profiles.json"
-$configButton.Height = 34
-$configButton.Width = 180
+$configButton = New-ProButton "Abrir profiles.json" 180 36 "Primary"
 $configButton.Margin = "0,8,0,0"
 $configButton.HorizontalAlignment = "Left"
 $configButton.Add_Click({ Start-Process notepad.exe -ArgumentList "`"$(Join-Path $root 'config\profiles.json')`"" })

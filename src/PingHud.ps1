@@ -9,23 +9,18 @@ $config = (Get-ProProfiles).PingHud
 $history = @{}
 
 $window = New-Object System.Windows.Window
-$window.Title = "Ping HUD"
-$window.Width = 300
-$window.Height = 120
-$window.Topmost = $true
-$window.WindowStyle = "None"
+Set-ProWindowStyle $window "Ping HUD" 360 150 -Topmost -Overlay
 $window.ResizeMode = "NoResize"
-$window.Background = "#101820"
-$window.Opacity = 0.9
 $window.Left = 30
 $window.Top = 180
 
-$text = New-Object System.Windows.Controls.TextBlock
-$text.FontFamily = "Consolas"
-$text.FontSize = 13
-$text.Foreground = "#E8EEF6"
-$text.Margin = "10"
-$window.Content = $text
+$panel = New-Object System.Windows.Controls.StackPanel
+$header = New-ProText "PING HUD" 12 "Bold" $script:PulseHudTheme.Accent -Mono
+$header.Margin = "0,0,0,6"
+$text = New-ProText "" 13 "Normal" $script:PulseHudTheme.Text -Mono
+[void]$panel.Children.Add($header)
+[void]$panel.Children.Add($text)
+$window.Content = New-ProPanel $panel "10" "0"
 $window.Add_MouseLeftButtonDown({ try { $window.DragMove() } catch {} })
 
 $timer = New-Object System.Windows.Threading.DispatcherTimer
