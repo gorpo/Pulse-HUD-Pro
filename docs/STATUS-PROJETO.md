@@ -37,6 +37,7 @@ Ultimo checkpoint antes deste documento:
 - Adicionado Brightness Control em `src\BrightnessController.ps1`.
 - Brightness Control tenta DDC/CI para monitores externos e WMI para telas internas.
 - Brightness Control agora tem dimmer visual universal por overlay para funcionar em qualquer monitor.
+- Game Notes Overlay usa a hotkey configurada para mostrar/ocultar.
 - Adicionado tema gamer compartilhado em `src\PulseHudProCommon.ps1`.
 - Dashboard, Brightness Control, Ping HUD e Game Notes Overlay passaram a usar o tema compartilhado.
 - Adicionado Profile Editor em `src\ProfileEditor.ps1`.
@@ -92,7 +93,6 @@ config\settings.json
 - Melhorar Game Launcher Profiles com editor visual de perfis.
 - Melhorar OBS Quick Deck com obs-websocket real para status de gravacao, cena atual e mute.
 - Melhorar Thermal Alert com leitura de sensores via LibreHardwareMonitor/OpenHardwareMonitor se aceitarmos dependencia.
-- Adicionar hotkey global ao Game Notes Overlay para mostrar/ocultar.
 - Criar tema visual gamer mais consistente entre todos os modulos.
 - Criar instalador/atalho especifico para `PulseHUDPro.exe`.
 - Validar instalacao completa em uma maquina limpa ou pasta temporaria.

@@ -32,5 +32,6 @@
 - Adiciona modulos iniciais: Game Focus Mode, Clip Marker, Ping HUD, Game Launcher Profiles, Aim Warmup Timer, OBS Quick Deck, Thermal Alert e Game Notes Overlay.
 - Adiciona Brightness Control com DDC/CI para monitores externos e WMI para telas internas.
 - Adiciona dimmer visual universal no Brightness Control para qualquer monitor.
+- Adiciona hotkey global para mostrar/ocultar o Game Notes Overlay.
 - Adiciona tema gamer compartilhado e aplica nos modulos Pro.
 - Adiciona Profile Editor com validacao e backup antes de salvar.
