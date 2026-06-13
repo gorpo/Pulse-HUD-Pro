@@ -36,5 +36,7 @@
 - Adiciona Game Library com varredura local, catalogo, abertura, remocao segura e desinstalador oficial.
 - Valida fluxo de instalacao e desinstalacao por usuario atual.
 - Corrige cliques do dashboard no modo portatil e adiciona launcher portatil na raiz.
+- Esconde consoles do PowerShell ao abrir o dashboard e os modulos Pro.
+- Melhora Game Library com icones locais, painel de detalhes gamer, botoes com estado e tooltips.
 - Adiciona tema gamer compartilhado e aplica nos modulos Pro.
 - Adiciona Profile Editor com validacao e backup antes de salvar.

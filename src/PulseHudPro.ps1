@@ -21,9 +21,10 @@ function Start-ProScript {
 
     Write-ProLog "dashboard" "Opening $RelativePath"
     $args = @("-NoProfile", "-ExecutionPolicy", "Bypass")
+    $args += @("-WindowStyle", "Hidden")
     if ($Sta) { $args += "-STA" }
     $args += @("-File", "`"$scriptPath`"")
-    Start-Process powershell.exe -ArgumentList $args -WorkingDirectory $root
+    Start-Process powershell.exe -ArgumentList $args -WorkingDirectory $root -WindowStyle Hidden
 }
 
 function Add-ToolButton {

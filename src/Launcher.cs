@@ -25,12 +25,12 @@ internal static class Launcher
                 case "pulsehudpro":
                 case "pulse hud pro":
                     script = Path.Combine(root, "src", "PulseHudPro.ps1");
-                    hidden = false;
+                    hidden = true;
                     break;
                 case "pulsehudconfig":
                 case "pulse hud - fps overlay config":
                     script = Path.Combine(root, "src", "ConfigurarOverlay.ps1");
-                    hidden = false;
+                    hidden = true;
                     break;
                 case "pulsehudinstall":
                 case "pulse hud - fps overlay installer":
@@ -62,7 +62,7 @@ internal static class Launcher
 
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = "powershell.exe";
-            info.Arguments = "-NoProfile -ExecutionPolicy Bypass -STA -File " + Quote(script) + (extraArgs.Length > 0 ? " " + extraArgs : "");
+            info.Arguments = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -STA -File " + Quote(script) + (extraArgs.Length > 0 ? " " + extraArgs : "");
             info.WorkingDirectory = root;
             info.UseShellExecute = false;
             info.CreateNoWindow = hidden;

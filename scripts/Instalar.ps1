@@ -137,7 +137,7 @@ New-Shortcut `
 New-Shortcut `
     -Path (Join-Path $startMenuDir "Profile Editor.lnk") `
     -TargetPath "powershell.exe" `
-    -Arguments "-NoProfile -ExecutionPolicy Bypass -STA -File `"$profileExe`"" `
+    -Arguments "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -STA -File `"$profileExe`"" `
     -WorkingDirectory $installRoot `
     -IconLocation $iconPath `
     -Description "Edita perfis e modulos do Pulse HUD Pro"
@@ -145,7 +145,7 @@ New-Shortcut `
 New-Shortcut `
     -Path (Join-Path $startMenuDir "Game Library.lnk") `
     -TargetPath "powershell.exe" `
-    -Arguments "-NoProfile -ExecutionPolicy Bypass -STA -File `"$libraryExe`"" `
+    -Arguments "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -STA -File `"$libraryExe`"" `
     -WorkingDirectory $installRoot `
     -IconLocation $iconPath `
     -Description "Varre, cataloga e gerencia jogos"

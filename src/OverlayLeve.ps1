@@ -755,7 +755,7 @@ if (-not $NoTray) {
         if (Test-Path -LiteralPath $configExe) {
             Start-Process -FilePath $configExe -WorkingDirectory $script:ProjectRoot
         } else {
-            Start-Process powershell.exe -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-STA", "-File", "`"$script:ProjectRoot\src\ConfigurarOverlay.ps1`"") -WorkingDirectory $script:ProjectRoot
+            Start-Process powershell.exe -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-STA", "-File", "`"$script:ProjectRoot\src\ConfigurarOverlay.ps1`"") -WorkingDirectory $script:ProjectRoot -WindowStyle Hidden
         }
     })
     $exitItem.Add_Click({ $window.Close() })

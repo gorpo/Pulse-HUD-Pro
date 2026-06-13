@@ -59,6 +59,12 @@ O `Game Library` usa:
 
 Ele procura jogos no Registro do Windows, atalhos do Menu Iniciar e pastas configuradas em `GameRoots`. A exclusao fisica manda para a Lixeira somente pastas dentro dessas roots; quando houver desinstalador oficial, ele abre o comando de uninstall do proprio Windows.
 
+Quando possivel, ele extrai icones dos executaveis/atalhos detectados para:
+
+```text
+.runtime\game-icons
+```
+
 O HUD classico continua usando:
 
 ```text

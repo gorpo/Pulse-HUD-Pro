@@ -1,5 +1,7 @@
 . "$PSScriptRoot\PulseHudProCommon.ps1"
 
+Add-Type -AssemblyName System.Drawing
+
 function Get-GameLibraryConfig {
     $profiles = Get-ProProfiles
     return $profiles.GameLibrary
@@ -27,22 +29,80 @@ function New-GameEntry {
         [string]$LaunchPath = "",
         [string]$Arguments = "",
         [string]$UninstallString = "",
+        [string]$IconSource = "",
         [bool]$CanDeleteFiles = $false
     )
 
     $key = "$Name|$Source|$InstallPath|$LaunchPath|$UninstallString"
+    $id = ConvertTo-GameId $key
     [pscustomobject]@{
-        Id = ConvertTo-GameId $key
+        Id = $id
         Name = $Name
         Source = $Source
         InstallPath = $InstallPath
         LaunchPath = $LaunchPath
         Arguments = $Arguments
         UninstallString = $UninstallString
+        IconSource = $IconSource
+        IconPath = ""
         CanUninstall = -not [string]::IsNullOrWhiteSpace($UninstallString)
         CanDeleteFiles = $CanDeleteFiles
         LastSeen = (Get-Date).ToString("s")
     }
+}
+
+function Resolve-GameIconSource {
+    param(
+        [string]$DisplayIcon,
+        [string]$LaunchPath,
+        [string]$InstallPath
+    )
+
+    foreach ($candidate in @($DisplayIcon, $LaunchPath)) {
+        if ([string]::IsNullOrWhiteSpace($candidate)) { continue }
+        $clean = $candidate.Trim().Trim('"')
+        if ($clean -match "^(.*?\.(exe|ico|dll))") { $clean = $matches[1] }
+        $clean = $clean.Trim('"')
+        if (Test-Path -LiteralPath $clean) { return $clean }
+    }
+
+    if ($InstallPath -and (Test-Path -LiteralPath $InstallPath)) {
+        $exe = Get-ChildItem -LiteralPath $InstallPath -Recurse -Filter *.exe -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -notmatch "unins|setup|install|redist|crash" } |
+            Sort-Object Length -Descending |
+            Select-Object -First 1
+        if ($exe) { return $exe.FullName }
+    }
+
+    return ""
+}
+
+function Set-GameIconPath {
+    param($Entry)
+
+    if (-not $Entry.IconSource -or -not (Test-Path -LiteralPath $Entry.IconSource)) { return $Entry }
+
+    $iconDir = Join-Path $script:PulseHudProRuntime "game-icons"
+    New-Item -ItemType Directory -Force -Path $iconDir | Out-Null
+    $iconPath = Join-Path $iconDir "$($Entry.Id).png"
+    if (Test-Path -LiteralPath $iconPath) {
+        $Entry.IconPath = $iconPath
+        return $Entry
+    }
+
+    try {
+        $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($Entry.IconSource)
+        if ($null -eq $icon) { return $Entry }
+        $bitmap = $icon.ToBitmap()
+        $bitmap.Save($iconPath, [System.Drawing.Imaging.ImageFormat]::Png)
+        $bitmap.Dispose()
+        $icon.Dispose()
+        $Entry.IconPath = $iconPath
+    } catch {
+        Write-ProLog "game-library" "Icon extract failed for $($Entry.Name): $($_.Exception.Message)"
+    }
+
+    return $Entry
 }
 
 function Get-ShortcutTarget {
@@ -100,7 +160,8 @@ function Get-RegistryGames {
             }
             if (-not $looksGame) { return }
 
-            $items += New-GameEntry -Name $name -Source "Registro" -InstallPath $install -UninstallString $uninstall
+            $iconSource = Resolve-GameIconSource -DisplayIcon $displayIcon -LaunchPath "" -InstallPath $install
+            $items += New-GameEntry -Name $name -Source "Registro" -InstallPath $install -UninstallString $uninstall -IconSource $iconSource
         }
     }
 
@@ -123,7 +184,7 @@ function Get-StartMenuGames {
             $targetText = "$($target.TargetPath) $($target.Arguments)"
             $isGameLink = ($launcherNames -contains $fileName) -or ($targetText -match "steam://|com.epicgames.launcher|goggalaxy://|uplay://|origin://|xbox")
             if (-not $isGameLink) { return }
-            $items += New-GameEntry -Name $_.BaseName -Source "Atalho" -LaunchPath $target.TargetPath -Arguments $target.Arguments
+            $items += New-GameEntry -Name $_.BaseName -Source "Atalho" -LaunchPath $target.TargetPath -Arguments $target.Arguments -IconSource $target.TargetPath
         }
     }
 
@@ -151,7 +212,7 @@ function Get-FolderGames {
                 Select-Object -First 1
 
             $launch = if ($exe) { $exe.FullName } else { "" }
-            $items += New-GameEntry -Name $dir.Name -Source "Pasta" -InstallPath $dir.FullName -LaunchPath $launch -CanDeleteFiles $true
+            $items += New-GameEntry -Name $dir.Name -Source "Pasta" -InstallPath $dir.FullName -LaunchPath $launch -IconSource $launch -CanDeleteFiles $true
         }
     }
 
@@ -173,7 +234,7 @@ function Merge-GameEntries {
         }
         if ($seen.ContainsKey($dedupeKey)) { continue }
         $seen[$dedupeKey] = $true
-        $merged += $entry
+        $merged += (Set-GameIconPath $entry)
     }
     return $merged | Sort-Object Name
 }

@@ -54,6 +54,10 @@ Ultimo checkpoint antes deste documento:
 - Corrigido dashboard portatil para cada botao abrir seu proprio modulo de forma confiavel.
 - Adicionado launcher `Pulse HUD Pro - Portable.bat` na raiz do pacote.
 - Launcher `.exe` agora explica que o ZIP precisa ser extraido inteiro quando as pastas do app nao sao encontradas.
+- Consoles do PowerShell escondidos ao abrir dashboard/modulos pelo app.
+- Game Library agora extrai icones locais para `.runtime\game-icons`.
+- Game Library agora mostra lista com icone, fonte, caminho e acoes disponiveis.
+- Game Library agora tem painel lateral com icone grande e estados claros dos botoes.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.
