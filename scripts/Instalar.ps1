@@ -67,6 +67,7 @@ $runExe = Join-Path $installRoot "bin\PulseHUDPro.exe"
 $hudExe = Join-Path $installRoot "bin\PulseHUD.exe"
 $configExe = Join-Path $installRoot "bin\PulseHUDConfig.exe"
 $profileExe = Join-Path $installRoot "src\ProfileEditor.ps1"
+$libraryExe = Join-Path $installRoot "src\GameLibrary.ps1"
 $uninstallExe = Join-Path $installRoot "bin\PulseHUDUninstall.exe"
 
 Write-Host "Instalando $appName em: $installRoot"
@@ -140,6 +141,14 @@ New-Shortcut `
     -WorkingDirectory $installRoot `
     -IconLocation $iconPath `
     -Description "Edita perfis e modulos do Pulse HUD Pro"
+
+New-Shortcut `
+    -Path (Join-Path $startMenuDir "Game Library.lnk") `
+    -TargetPath "powershell.exe" `
+    -Arguments "-NoProfile -ExecutionPolicy Bypass -STA -File `"$libraryExe`"" `
+    -WorkingDirectory $installRoot `
+    -IconLocation $iconPath `
+    -Description "Varre, cataloga e gerencia jogos"
 
 New-Shortcut `
     -Path (Join-Path $startMenuDir "Desinstalar $appName.lnk") `

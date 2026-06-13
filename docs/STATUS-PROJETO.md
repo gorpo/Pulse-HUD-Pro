@@ -44,6 +44,13 @@ Ultimo checkpoint antes deste documento:
 - Profile Editor valida JSON por modulo e cria backup antes de salvar.
 - Tema compartilhado aplicado tambem em Focus, Launcher, Clip Marker, OBS Quick Deck, Thermal Alert e Aim Warmup Timer.
 - Scripts de atalho, instalacao, desinstalacao e release passaram a usar Pulse HUD Pro como produto principal.
+- Adicionado Game Library backend em `src\GameLibraryBackend.ps1`.
+- Adicionada interface Game Library em `src\GameLibrary.ps1`.
+- Game Library varre registro do Windows, atalhos do Menu Iniciar e pastas comuns configuradas em `GameRoots`.
+- Game Library salva catalogo em `.runtime\game-library.json`.
+- Game Library permite abrir jogo/pasta, remover do catalogo, chamar desinstalador oficial e mover para Lixeira quando a pasta esta dentro de uma GameRoot segura.
+- Instalador testado em pasta temporaria dentro de `%LOCALAPPDATA%\Programs`.
+- Desinstalador testado removendo pasta temporaria e chave HKCU de uninstall.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.
@@ -96,6 +103,7 @@ config\settings.json
 - Criar tema visual gamer mais consistente entre todos os modulos.
 - Criar instalador/atalho especifico para `PulseHUDPro.exe`.
 - Validar instalacao completa em uma maquina limpa ou pasta temporaria.
+- Revisar heuristica de varredura com mais bibliotecas reais para reduzir falsos positivos de launchers/apps.
 
 ## Planejamento recomendado
 
@@ -106,6 +114,7 @@ config\settings.json
 2. Evoluir editor de configuracao:
    - Transformar o editor JSON por modulo em formularios especificos para cada ferramenta.
    - Comecar por Brightness, Ping HUD e Game Focus Mode.
+   - Criar formulario especifico para editar GameRoots e opcoes do Game Library.
 
 3. Priorizar modulos mais uteis:
    - Game Focus Mode.

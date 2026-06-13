@@ -77,6 +77,11 @@ if (Test-Path -LiteralPath $startMenuDir) {
     Remove-Item -LiteralPath $startMenuDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+$oldStartMenuDir = Join-Path ([Environment]::GetFolderPath("Programs")) "Pulse HUD - FPS Overlay"
+if (Test-Path -LiteralPath $oldStartMenuDir) {
+    Remove-Item -LiteralPath $oldStartMenuDir -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 # Remove the entry shown in Windows Settings > Apps.
 $uninstallKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\$appId"
 if (Test-Path -LiteralPath $uninstallKey) {

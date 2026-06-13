@@ -25,6 +25,7 @@ scripts\IniciarPulseHudProDebug.bat
 - Clip Marker: salva timestamps de highlights em CSV com hotkey.
 - Ping HUD: overlay de ping, perda e jitter.
 - Game Launcher Profiles: abre jogos com apps auxiliares e prioridade.
+- Game Library: varre jogos no Windows, atalhos e pastas comuns; abre, remove do catalogo, chama desinstalador oficial e manda pastas seguras para a Lixeira.
 - Aim Warmup Timer: blocos de treino antes de jogar.
 - OBS Quick Deck: botoes que enviam hotkeys para o OBS.
 - Thermal Alert: alerta uso alto e temperatura ACPI quando o Windows disponibiliza sensor.
@@ -41,6 +42,14 @@ config\profiles.json
 ```
 
 O jeito mais seguro de editar e pelo modulo `Profile Editor`, aberto pelo dashboard.
+
+O `Game Library` usa:
+
+```text
+.runtime\game-library.json
+```
+
+Ele procura jogos no Registro do Windows, atalhos do Menu Iniciar e pastas configuradas em `GameRoots`. A exclusao fisica manda para a Lixeira somente pastas dentro dessas roots; quando houver desinstalador oficial, ele abre o comando de uninstall do proprio Windows.
 
 O HUD classico continua usando:
 
@@ -80,6 +89,12 @@ Instalar no usuario atual:
 
 ```text
 bin\PulseHUDInstall.exe
+```
+
+Desinstalar:
+
+```text
+bin\PulseHUDUninstall.exe
 ```
 
 Gerar ZIP:

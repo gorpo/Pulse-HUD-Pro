@@ -33,5 +33,7 @@
 - Adiciona Brightness Control com DDC/CI para monitores externos e WMI para telas internas.
 - Adiciona dimmer visual universal no Brightness Control para qualquer monitor.
 - Adiciona hotkey global para mostrar/ocultar o Game Notes Overlay.
+- Adiciona Game Library com varredura local, catalogo, abertura, remocao segura e desinstalador oficial.
+- Valida fluxo de instalacao e desinstalacao por usuario atual.
 - Adiciona tema gamer compartilhado e aplica nos modulos Pro.
 - Adiciona Profile Editor com validacao e backup antes de salvar.

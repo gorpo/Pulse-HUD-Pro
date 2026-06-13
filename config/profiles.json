@@ -106,5 +106,31 @@
       75,
       100
     ]
+  },
+  "GameLibrary": {
+    "CatalogPath": ".runtime\\game-library.json",
+    "ScanStartMenu": true,
+    "ScanRegistry": true,
+    "ScanFolders": true,
+    "MaxFolderDepth": 3,
+    "GameRoots": [
+      "%ProgramFiles(x86)%\\Steam\\steamapps\\common",
+      "%ProgramFiles%\\Epic Games",
+      "%ProgramFiles%\\WindowsApps",
+      "C:\\XboxGames",
+      "D:\\Games",
+      "D:\\SteamLibrary\\steamapps\\common",
+      "E:\\Games",
+      "E:\\SteamLibrary\\steamapps\\common"
+    ],
+    "KnownLaunchers": [
+      "steam.exe",
+      "epicgameslauncher.exe",
+      "eadesktop.exe",
+      "battle.net.exe",
+      "ubisoftconnect.exe",
+      "goggalaxy.exe",
+      "xboxpcapp.exe"
+    ]
   }
 }

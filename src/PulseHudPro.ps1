@@ -90,6 +90,7 @@ Add-ToolButton $quickRow "Pulse HUD" "Overlay de FPS, CPU, GPU e RAM." "src\Over
 Add-ToolButton $quickRow "Configurar HUD" "Visual, hotkey, transparencia e modo taskbar." "src\ConfigurarOverlay.ps1" -Sta
 Add-ToolButton $quickRow "Game Focus Mode" "Detecta jogos, muda energia, fecha apps e aplica prioridade." "src\GameFocusMode.ps1" -Sta
 Add-ToolButton $quickRow "Game Launcher Profiles" "Abre jogos com apps, prioridade e limpeza de processos." "src\GameLauncherProfiles.ps1" -Sta
+Add-ToolButton $quickRow "Game Library" "Varre, cataloga, abre e remove jogos com seguranca." "src\GameLibrary.ps1" -Sta
 Add-ToolButton $quickRow "Clip Marker" "Hotkey para salvar timestamps de highlights." "src\ClipMarker.ps1" -Sta
 Add-ToolButton $quickRow "Ping HUD" "Overlay de ping, perda e jitter." "src\PingHud.ps1" -Sta
 Add-ToolButton $quickRow "Aim Warmup Timer" "Blocos de treino antes da partida." "src\AimWarmupTimer.ps1" -Sta
