@@ -1,0 +1,23 @@
+﻿{
+    "AppName":  "Pulse HUD Pro",
+    "Mode":  "Overlay",
+    "X":  20,
+    "Y":  20,
+    "Width":  224,
+    "Height":  116,
+    "IntervalMs":  1000,
+    "BackgroundColor":  "#0D0F12",
+    "TextColor":  "#FFFFFF",
+    "LabelColor":  "#DCDCDC",
+    "AccentColor":  "#7DD3FC",
+    "Opacity":  0.86,
+    "FontSize":  16,
+    "LabelFontSize":  12,
+    "ClickThrough":  false,
+    "ShowInTaskbar":  false,
+    "StartWithWindows":  false,
+    "ToggleHotkey":  "Ctrl+Alt+O",
+    "FpsFile":  "%TEMP%\\overlay_fps.txt",
+    "PresentMonCsv":  ""
+}
+

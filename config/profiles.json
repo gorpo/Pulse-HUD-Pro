@@ -1,0 +1,109 @@
+{
+  "GameFocusMode": {
+    "Enabled": true,
+    "PollSeconds": 5,
+    "PowerPlan": "high",
+    "RestorePowerPlan": true,
+    "Profiles": [
+      {
+        "Name": "Exemplo FPS",
+        "ProcessName": "valorant",
+        "Priority": "High",
+        "CloseProcesses": [
+          "OneDrive",
+          "Teams"
+        ],
+        "StartApps": []
+      }
+    ]
+  },
+  "ClipMarker": {
+    "Hotkey": "Ctrl+Alt+M",
+    "OutputCsv": ".runtime\\clip-markers.csv"
+  },
+  "PingHud": {
+    "IntervalSeconds": 2,
+    "Hosts": [
+      {
+        "Name": "Google DNS",
+        "Host": "8.8.8.8"
+      },
+      {
+        "Name": "Cloudflare",
+        "Host": "1.1.1.1"
+      }
+    ]
+  },
+  "GameLauncherProfiles": {
+    "Profiles": [
+      {
+        "Name": "Exemplo de jogo",
+        "GamePath": "",
+        "Arguments": "",
+        "WorkingDirectory": "",
+        "Priority": "High",
+        "StartApps": [],
+        "CloseProcesses": []
+      }
+    ]
+  },
+  "AimWarmupTimer": {
+    "Blocks": [
+      {
+        "Name": "Tracking",
+        "Seconds": 180
+      },
+      {
+        "Name": "Flicks",
+        "Seconds": 180
+      },
+      {
+        "Name": "Recoil",
+        "Seconds": 120
+      }
+    ]
+  },
+  "ObsQuickDeck": {
+    "ObsWindowTitle": "OBS",
+    "Actions": [
+      {
+        "Name": "Iniciar/Parar gravacao",
+        "SendKeys": "^+r"
+      },
+      {
+        "Name": "Marcar replay",
+        "SendKeys": "^+m"
+      },
+      {
+        "Name": "Mutar mic",
+        "SendKeys": "^+a"
+      }
+    ]
+  },
+  "ThermalAlert": {
+    "IntervalSeconds": 3,
+    "CpuPercent": 92,
+    "GpuPercent": 95,
+    "ThermalZoneCelsius": 85,
+    "SecondsAboveLimit": 10
+  },
+  "GameNotesOverlay": {
+    "Hotkey": "Ctrl+Alt+N",
+    "Notes": [
+      {
+        "Game": "Exemplo FPS",
+        "ProcessName": "valorant",
+        "Text": "Lineups, callouts, comandos e builds ficam aqui."
+      }
+    ]
+  },
+  "BrightnessController": {
+    "DefaultStep": 10,
+    "Presets": [
+      25,
+      50,
+      75,
+      100
+    ]
+  }
+}
