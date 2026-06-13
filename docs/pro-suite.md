@@ -11,5 +11,6 @@ Pulse HUD Pro junta o overlay ja pronto com modulos gamer leves:
 - Thermal Alert: alerta uso alto e temperatura ACPI quando disponivel.
 - Game Notes Overlay: notas por jogo em janela sempre no topo.
 - Brightness Control: controla brilho por DDC/CI em monitores externos e WMI em telas internas.
+- Profile Editor: edita cada modulo de `config/profiles.json` com validacao e backup.
 
 Tudo e configurado em `config/profiles.json`.

@@ -30,6 +30,7 @@ scripts\IniciarPulseHudProDebug.bat
 - Thermal Alert: alerta uso alto e temperatura ACPI quando o Windows disponibiliza sensor.
 - Game Notes Overlay: notas por jogo em overlay discreto.
 - Brightness Control: controle de brilho por DDC/CI em monitores externos e WMI em telas internas.
+- Profile Editor: editor validado para `config\profiles.json`, com backup antes de salvar.
 
 ## Configuracao
 
@@ -38,6 +39,8 @@ Os modulos Pro usam:
 ```text
 config\profiles.json
 ```
+
+O jeito mais seguro de editar e pelo modulo `Profile Editor`, aberto pelo dashboard.
 
 O HUD classico continua usando:
 

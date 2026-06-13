@@ -97,11 +97,12 @@ Add-ToolButton $quickRow "OBS Quick Deck" "Botoes visuais que disparam hotkeys n
 Add-ToolButton $quickRow "Thermal Alert" "Alertas de uso alto e temperatura quando o Windows expuser sensor." "src\ThermalAlert.ps1" -Sta
 Add-ToolButton $quickRow "Game Notes Overlay" "Notas por jogo em overlay discreto." "src\GameNotesOverlay.ps1" -Sta
 Add-ToolButton $quickRow "Brightness Control" "Controle gamer de brilho por DDC/CI e WMI." "src\BrightnessController.ps1" -Sta
+Add-ToolButton $quickRow "Profile Editor" "Editor validado para modulos e perfis." "src\ProfileEditor.ps1" -Sta
 
-$configButton = New-ProButton "Abrir profiles.json" 180 36 "Primary"
+$configButton = New-ProButton "Abrir editor de perfis" 190 36 "Primary"
 $configButton.Margin = "0,8,0,0"
 $configButton.HorizontalAlignment = "Left"
-$configButton.Add_Click({ Start-Process notepad.exe -ArgumentList "`"$(Join-Path $root 'config\profiles.json')`"" })
+$configButton.Add_Click({ Start-ProScript "src\ProfileEditor.ps1" -Sta })
 [void]$rootPanel.Children.Add($configButton)
 
 $window.Content = $scroll

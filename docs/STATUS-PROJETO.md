@@ -36,6 +36,10 @@ Ultimo checkpoint antes deste documento:
 - Adicionado Game Notes Overlay em `src\GameNotesOverlay.ps1`.
 - Adicionado Brightness Control em `src\BrightnessController.ps1`.
 - Brightness Control tenta DDC/CI para monitores externos e WMI para telas internas.
+- Adicionado tema gamer compartilhado em `src\PulseHudProCommon.ps1`.
+- Dashboard, Brightness Control, Ping HUD e Game Notes Overlay passaram a usar o tema compartilhado.
+- Adicionado Profile Editor em `src\ProfileEditor.ps1`.
+- Profile Editor valida JSON por modulo e cria backup antes de salvar.
 - Atualizado `README.md` com abertura, modulos e requisitos.
 - Adicionado `docs\pro-suite.md`.
 - Corrigido `scripts\PararOverlay.bat` para funcionar em pasta com espacos no caminho.
@@ -92,12 +96,12 @@ config\settings.json
 ## Planejamento recomendado
 
 1. Fechar base visual gamer:
-   - Definir paleta, botoes, headers e estilo comum.
-   - Aplicar o mesmo visual no dashboard, Brightness, Ping HUD, Notes e Focus.
+   - Aplicar o tema compartilhado tambem em Focus, Launcher, Clip Marker, OBS, Thermal e Aim Timer.
+   - Adicionar icones/indicadores visuais por modulo.
 
 2. Evoluir editor de configuracao:
-   - Criar uma tela para editar `profiles.json`.
-   - Evitar que o usuario precise editar JSON manualmente.
+   - Transformar o editor JSON por modulo em formularios especificos para cada ferramenta.
+   - Comecar por Brightness, Ping HUD e Game Focus Mode.
 
 3. Priorizar modulos mais uteis:
    - Game Focus Mode.
